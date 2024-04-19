@@ -39,22 +39,81 @@ function generateQuestionPaper(module, marks, count, type, flag) {
 }
 
 // Arrays to hold the generated question papers
-// var qp1 = [];
-// var qp2 = [];
-// var qp3 = [];
+var qp1 = [];
+var qp2 = [];
+var qp3 = [];
 
-//  Generate question papers and store them in arrays
-// for (let i = 0; i < 3; i++) {
-//   const { set1, set2, set3 } = generateQuestionPaper(1, 5, 1, "T", true);
-//   qp1.push(set1);
-//   qp2.push(set2);
-//   qp3.push(set3);
-// }
+let dictAT = {
+ "1": "2",
+ "2": "1",
+ "3": "3"
+}
 
-// Print generated question papers
-// console.log("Set 1:");
-// console.log(qp1);
-// console.log("Set 2:");
-// console.log(qp2);
-// console.log("Set 3:");
-// console.log(qp3);
+let dictBT = {
+  "1": "1",
+  "2": "1",
+  "3": "1"
+ }
+
+let dictAN = {
+  "1": "0",
+  "2": "1",
+  "3": "0"
+ }
+ 
+let dictBN = {
+   "1": "0",
+   "2": "1",
+   "3": "0"
+  }
+
+// Generate question papers and store them in arrays
+for (let i = 1; i <= 3; i++) {
+  const { set1, set2, set3 } = generateQuestionPaper(i, 2, parseInt(dictAT[i]), "T", true); //module marks count 
+  qp1.push(set1);
+  
+  qp2.push(set2);
+  
+  qp3.push(set3);
+  
+}
+
+for (let i = 1; i <= 3; i++) {
+  const { set1, set2, set3 } = generateQuestionPaper(i, 2, parseInt(dictAN[i]), "N", true); //module marks count 
+  qp1.push(set1);
+  
+  qp2.push(set2);
+  
+  qp3.push(set3);
+  
+}
+
+// Generate question papers and store them in arrays
+for (let i = 1; i <= 3; i++) {
+  const { set1, set2, set3 } = generateQuestionPaper(i, 5, parseInt(dictBT[i]), "N", true); //module marks count 
+  qp1.push(set1);
+  
+  qp2.push(set2);
+  
+  qp3.push(set3);
+  
+}
+
+// Generate question papers and store them in arrays
+for (let i = 1; i <= 3; i++) {
+  const { set1, set2, set3 } = generateQuestionPaper(i, 5, parseInt(dictBN[i]), "N", true); //module marks count 
+  qp1.push(set1);
+  
+  qp2.push(set2);
+  
+  qp3.push(set3);
+  
+}
+
+
+console.log("Set 1:");
+console.log(qp1);
+console.log("Set 2:");
+console.log(qp2);
+console.log("Set 3:");
+console.log(qp3);
