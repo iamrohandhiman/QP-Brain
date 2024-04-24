@@ -47,18 +47,26 @@ var qp3 = [];
 
 
 const chapters = [1, 2, 3];
+const chpNumericalRatio = [40,60,50]
 const weights = [6, 9, 10];
 const TnRatio = 80;
-const chpNumericalRatio = [40,50,60]
+
+
+
 
 
 let nqAT = Math.round(TnRatio * 0.01 * 7);
 let nqBT = Math.round(TnRatio * 0.01 * 4);
 
 let nqAN = 7 - nqAT;
-let nqBN = 7 - nqBT;
+let nqBN = 4 - nqBT;
 
-// Finding maximum weight
+console.log(nqAT)
+console.log(nqBT)
+console.log(nqAN)
+console.log(nqBN)
+
+
 let maxiIndex = 0;
 for (let i = 1; i < weights.length; i++) { 
     if (weights[i] > weights[maxiIndex]) {
@@ -67,6 +75,18 @@ for (let i = 1; i < weights.length; i++) {
 }
 
 let chpMaxi = chapters[maxiIndex];
+
+const chapterRatioDict = {};
+for (let i = 0; i < chapters.length; i++) {
+    chapterRatioDict[chapters[i]] = chpNumericalRatio[i];
+}
+
+let chapterRatioArray = Object.entries(chapterRatioDict); 
+
+chapterRatioArray.sort((a, b) => b[1] - a[1]); 
+
+
+console.log(chapterRatioArray);
 
 //populate sectionA theory
 let dictAT = {};
@@ -120,67 +140,115 @@ if (nqBT % 2 === 0) {
 console.log(dictBT); 
 
 
+//populating questions(numeric) in section A
+
+let dictAN = {};
+chapters.forEach(chapter => dictAN[chapter] = 0); 
+
+let indexAN = 0;
+let questionCountAN = 0;
 
 
-// let dictAN = {
-//   "1": "0",
-//   "2": "1",
-//   "3": "0"
-//  }
- 
-// let dictBN = {
-//    "1": "0",
-//    "2": "1",
-//    "3": "0"
-//   }
+if (nqAN % 2 === 0) { 
+    while (questionCountAN < nqAN) {
+        let chapter = chapterRatioArray[indexAN][0]; 
+        dictAN[chapter] += 1; 
+        indexAN = (indexAN + 1) % chapters.length; 
+        questionCountAN++;
+    }
+} else {
+    while (questionCountAN < (nqAN - 1)) {
+        let chapter = chapterRatioArray[indexAN][0];
+        dictAN[chapter] += 1;
+        indexAN = (indexAN + 1) % chapters.length;
+        questionCountAN++;
+    }
+    dictAN[chpMaxi] += 1; 
+}
+
+console.log(dictAN); 
+
+//populating questions(numeric) in section B
+// Correct initialization for Section B
+let dictBN = {};
+chapters.forEach(chapter => dictBN[chapter] = 0); 
+
+let indexBN = 0;
+let questionCountBN = 0;
+
+// Correct even/odd check
+if (nqBN % 2 === 0) { // Use nqBN for Section B
+    while (questionCountBN < nqBN) {
+        let chapter = chapterRatioArray[indexBN][0]; 
+        dictBN[chapter] += 1; 
+        indexBN = (indexBN + 1) % chapters.length; 
+        questionCountBN++;
+    }
+} else {
+    while (questionCountBN < (nqBN - 1)) { 
+        let chapter = chapterRatioArray[indexBN][0];
+        dictBN[chapter] += 1;
+        indexBN = (indexBN + 1) % chapters.length;
+        questionCountBN++;
+    }
+    dictBN[chpMaxi] += 1; 
+}
+
+console.log(dictBN); 
+
+
+
+
+
+
 
 // // Generate question papers and store them in arrays
-// for (let i = 1; i <= 3; i++) {
-//   const { set1, set2, set3 } = generateQuestionPaper(i, 2, parseInt(dictAT[i]), "T", true); //module marks count 
-//   qp1.push(set1);
+for (let i = 1; i <= 3; i++) {
+  const { set1, set2, set3 } = generateQuestionPaper(i, 2, parseInt(dictAT[i]), "T", true); //module marks count 
+  qp1.push(set1);
   
-//   qp2.push(set2);
+  qp2.push(set2);
   
-//   qp3.push(set3);
+  qp3.push(set3);
   
-// }
+}
 
-// for (let i = 1; i <= 3; i++) {
-//   const { set1, set2, set3 } = generateQuestionPaper(i, 2, parseInt(dictAN[i]), "N", true); //module marks count 
-//   qp1.push(set1);
+for (let i = 1; i <= 3; i++) {
+  const { set1, set2, set3 } = generateQuestionPaper(i, 2, parseInt(dictAN[i]), "N", true); //module marks count 
+  qp1.push(set1);
   
-//   qp2.push(set2);
+  qp2.push(set2);
   
-//   qp3.push(set3);
+  qp3.push(set3);
   
-// }
+}
 
 // Generate question papers and store them in arrays
-// for (let i = 1; i <= 3; i++) {
-//   const { set1, set2, set3 } = generateQuestionPaper(i, 5, parseInt(dictBT[i]), "T", true); //module marks count 
-//   qp1.push(set1);
+for (let i = 1; i <= 3; i++) {
+  const { set1, set2, set3 } = generateQuestionPaper(i, 5, parseInt(dictBT[i]), "T", true); //module marks count 
+  qp1.push(set1);
   
-//   qp2.push(set2);
+  qp2.push(set2);
   
-//   qp3.push(set3);
+  qp3.push(set3);
   
-// }
+}
 
 // // Generate question papers and store them in arrays
-// for (let i = 1; i <= 3; i++) {
-//   const { set1, set2, set3 } = generateQuestionPaper(i, 5, parseInt(dictBN[i]), "N", true); //module marks count 
-//   qp1.push(set1);
+for (let i = 1; i <= 3; i++) {
+  const { set1, set2, set3 } = generateQuestionPaper(i, 5, parseInt(dictBN[i]), "N", true); //module marks count 
+  qp1.push(set1);
   
-//   qp2.push(set2);
+  qp2.push(set2);
   
-//   qp3.push(set3);
+  qp3.push(set3);
   
-// }
+}
 
 
-// console.log("Set 1:");
-// console.log(qp1);
-// console.log("Set 2:");
-// console.log(qp2);
-// console.log("Set 3:");
-// console.log(qp3);
+console.log("Set 1:");
+console.log(qp1);
+console.log("Set 2:");
+console.log(qp2);
+console.log("Set 3:");
+console.log(qp3);
