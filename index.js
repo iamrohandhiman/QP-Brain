@@ -46,10 +46,10 @@ var qp3 = [];
 
 
 
-const chapters = [1, 2, 3];
+const chapters = [4, 5, 6];
 const chpNumericalRatio = [40,60,50]
 const weights = [6, 9, 10];
-const TnRatio = 80;
+const TnRatio = 50;
 
 
 
@@ -203,8 +203,8 @@ console.log(dictBN);
 
 
 // // Generate question papers and store them in arrays
-for (let i = 1; i <= 3; i++) {
-  const { set1, set2, set3 } = generateQuestionPaper(i, 2, parseInt(dictAT[i]), "T", true); //module marks count 
+for (let i = 0; i < chapters.length; i++) {
+  const { set1, set2, set3 } = generateQuestionPaper(chapters[i], 2, parseInt(dictAT[chapters[i]]), "T", true); //module marks count 
   qp1.push(set1);
   
   qp2.push(set2);
@@ -213,8 +213,8 @@ for (let i = 1; i <= 3; i++) {
   
 }
 
-for (let i = 1; i <= 3; i++) {
-  const { set1, set2, set3 } = generateQuestionPaper(i, 2, parseInt(dictAN[i]), "N", true); //module marks count 
+for (let i = 0; i < chapters.length; i++) {
+  const { set1, set2, set3 } = generateQuestionPaper(chapters[i], 2, parseInt(dictAN[chapters[i]]), "N", true); //module marks count 
   qp1.push(set1);
   
   qp2.push(set2);
@@ -224,8 +224,8 @@ for (let i = 1; i <= 3; i++) {
 }
 
 // Generate question papers and store them in arrays
-for (let i = 1; i <= 3; i++) {
-  const { set1, set2, set3 } = generateQuestionPaper(i, 5, parseInt(dictBT[i]), "T", true); //module marks count 
+for (let i = 0; i < chapters.length; i++) {
+  const { set1, set2, set3 } = generateQuestionPaper(chapters[i], 5, parseInt(dictBT[chapters[i]]), "T", true); //module marks count 
   qp1.push(set1);
   
   qp2.push(set2);
@@ -235,14 +235,14 @@ for (let i = 1; i <= 3; i++) {
 }
 
 // // Generate question papers and store them in arrays
-for (let i = 1; i <= 3; i++) {
-  const { set1, set2, set3 } = generateQuestionPaper(i, 5, parseInt(dictBN[i]), "N", true); //module marks count 
+for (let i = 0; i < chapters.length; i++) {
+  const { set1, set2, set3 } = generateQuestionPaper(chapters[i], 5, parseInt(dictBN[chapters[i]]), "N", true); //module marks count 
   qp1.push(set1);
   
   qp2.push(set2);
   
   qp3.push(set3);
-  
+
 }
 
 
