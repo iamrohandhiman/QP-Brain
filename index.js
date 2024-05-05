@@ -47,10 +47,10 @@ var qp3 = [];
 
 
 
-const chapters = [4, 5, 6];
-const chpNumericalRatio = [28,7,7]
-const weights = [6, 9, 10];
-const TnRatio = 70;
+const chapters = [1,2,3];
+const chpNumericalRatio = [6,10,9]
+const weights = [6, 14, 10];
+const TnRatio = 84;
 
 
 

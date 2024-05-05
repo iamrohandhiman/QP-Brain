@@ -1,5 +1,6 @@
 import { compareTwoStrings } from "string-similarity";
 import { pickQuestions } from "../pickQuestions.js";
+import { Cluster } from "../Cluster.js";
 
 export const Final_Validation = (qp) => {
   // Flatten the input array to a single level
@@ -7,17 +8,17 @@ export const Final_Validation = (qp) => {
   console.log("Flattened questions:", flattened);
 
   // Loop through each pair of questions to find duplicates
-  for (let i = 0; i < flattened.length; i++) {
-    const question1 = flattened[i].questions;
+  for (let idx1 = 0; idx1 < flattened.length; idx1++) {
+    const question1 = flattened[idx1].questions;
     if (!question1) {
-      console.warn(`No question found at index ${i}. Skipping.`);
+      console.warn(`No question found at index ${idx1}. Skipping.`);
       continue;
     }
 
-    for (let j = i + 1; j < flattened.length; j++) {
-      const question2 = flattened[j].questions;
+    for (let idx2 = idx1 + 1; idx2 < flattened.length; idx2++) {
+      const question2 = flattened[idx2].questions;
       if (!question2) {
-        console.warn(`No question found at index ${j}. Skipping.`);
+        console.warn(`No question found at index ${idx2}. Skipping.`);
         continue;
       }
 
@@ -25,58 +26,44 @@ export const Final_Validation = (qp) => {
       const similarity = compareTwoStrings(question1, question2);
 
       if (similarity === 1) {
-        console.log("==================================================================");
         console.log(
-          `Duplicate found! Indices: ${i} and ${j}, CO: ${flattened[j].co}, Marks: ${flattened[j].marks}`
+          "=================================================================="
+        );
+        console.log(
+          `Duplicate found! Indices: ${idx1} and ${idx2}, CO: ${flattened[idx2].co}, Marks: ${flattened[idx2].marks}`
         );
 
         // Extract module number from the CO property
-        const co = flattened[j].co || "";
+        const co = flattened[idx2].co || "";
         const regex = /\d+/;
         const result = co.match(regex);
         const module_number = result ? parseInt(result[0], 10) : null;
 
-        if (module_number === null) {
-          console.warn(`Could not extract module number from CO: ${co}`);
-          continue;
-        }
-
         // Pick additional questions based on module number and marks
         const extracted_questions = pickQuestions(
           module_number,
-          parseInt(flattened[j].marks)
+          parseInt(flattened[idx2].marks)
         );
 
-        if (!extracted_questions || extracted_questions.length === 0) {
-          console.warn("No extracted questions found.");
-          continue;
-        }
-
-        // Find the most similar question from `extracted_questions`
-        const similarity_dict = {};
-        for (let k = 0; k < extracted_questions.length; k++) {
-          const question_to_compare = extracted_questions[k].questions;
-          if (!question_to_compare) {
-            console.warn(`No question found in extracted question at index ${k}.`);
-            continue;
+        let dict = {};
+        for (let eq_idx = 0; eq_idx < extracted_questions.length; eq_idx++) {
+          let max_similarity = -1;
+          for (let fq_idx = 0; fq_idx < flattened.length; fq_idx++) {
+            const similarity = compareTwoStrings(
+              extracted_questions[eq_idx].questions,
+              flattened[fq_idx].questions
+            );
+            if (similarity > max_similarity) {
+              max_similarity = similarity;
+            }
           }
-
-          const current_similarity = compareTwoStrings(
-            question1,
-            question_to_compare
-          );
-
-          similarity_dict[k] = current_similarity;
+          dict[eq_idx] = max_similarity;
         }
 
-        // Sort by similarity in descending order
-        const similarity_entries = Object.entries(similarity_dict).sort(
-          (a, b) => a[1] - b[1]
-        );
+        const entries = Object.entries(dict);
 
-        // Update `flattened[j]` with the extracted question with the highest similarity
-        const most_similar_index = parseInt(similarity_entries[0][0], 10);
-        flattened[j] = extracted_questions[most_similar_index];
+        entries.sort((a, b) => a[1] - b[1]);
+        flattened[idx2] = extracted_questions[entries[0][0]];
       }
     }
   }
