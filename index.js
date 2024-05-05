@@ -6,6 +6,7 @@ import { sort_cluster } from "./Cluster-QS/sort_cluster.js";
 import { lastOccurrence } from "./Cluster-QS/lastOccurrence.js";
 import { seprateCluster } from "./Cluster-QS/seprateCluster.js";
 import { SelectQuestions } from "./Cluster-QS/selectQuestions.js";
+import { Final_Validation } from "./Cluster-QS/Final_Validation/Final_Validation.js";
 
 function generateQuestionPaper(module, marks, count, type, flag) {
   if (flag) {
@@ -47,9 +48,9 @@ var qp3 = [];
 
 
 const chapters = [4, 5, 6];
-const chpNumericalRatio = [40,60,50]
+const chpNumericalRatio = [28,7,7]
 const weights = [6, 9, 10];
-const TnRatio = 50;
+const TnRatio = 70;
 
 
 
@@ -245,6 +246,13 @@ for (let i = 0; i < chapters.length; i++) {
 
 }
 
+// itterate over each set:
+
+qp1 = Final_Validation(qp1)
+
+qp2 = Final_Validation(qp2)
+
+qp3 = Final_Validation(qp3)
 
 console.log("Set 1:");
 console.log(qp1);
